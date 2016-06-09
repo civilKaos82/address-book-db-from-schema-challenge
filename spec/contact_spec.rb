@@ -1,6 +1,6 @@
-require_relative 'factories'
-require_relative 'contact'
-require_relative 'group'
+require_relative '../factories'
+require_relative '../contact'
+require_relative '../group'
 
 describe Contact do
   before(:each) do
