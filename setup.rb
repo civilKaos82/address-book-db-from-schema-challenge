@@ -1,19 +1,42 @@
-# ABOUT THIS FILE
-# This file establishes the initial schema and any seed data.
-# It should be run directly from the command line *once*.
-# Rerunning it will destroy the existing database.
+#
+# Running this file from the command line
+# will delete the file "database.db" if it exists.
+# A new database file will be created.
+#
+# This file should only be run at the beginning of the challenge
+# or if anything goes wrong and we need to reset the database.
 #
 
-gem 'sqlite3'
-require 'sqlite3'
-require 'fileutils'
 
-database_file = "address_book.sqlite3"
-FileUtils.rm(File.expand_path('./'+database_file)) rescue nil
-$db = SQLite3::Database.new(database_file)
+# Delete the existing database
+require "fileutils"
+FileUtils.remove_file("./database.db") rescue nil
 
-# TODO: set up your schema here
 
-# TODO: set up any initial data here
+# Create a fresh database
+require_relative 'config'
 
+$db.execute(
+  <<-CREATE_GROUPS_TABLE
+  CREATE TABLE groups (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       VARCHAR(32) NOT NULL,
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+  );
+  CREATE_GROUPS_TABLE
+)
+
+$db.execute(
+  <<-CREATE_CONTACTS_TABLE
+  CREATE TABLE contacts (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    name       VARCHAR(64) NOT NULL,
+    phone      VARCHAR(32),
+    email      VARCHAR(64),
+    created_at DATETIME NOT NULL,
+    updated_at DATETIME NOT NULL
+  );
+  CREATE_CONTACTS_TABLE
+)
 
