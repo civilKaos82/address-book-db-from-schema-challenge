@@ -5,7 +5,7 @@
 # Each of these functions returns the id of the newly-created record
 #
 
-require_relative 'db'
+require_relative 'config'
 
 def create_contact(params={})
   sql = <<-SQL

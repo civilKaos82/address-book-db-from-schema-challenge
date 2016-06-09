@@ -1,3 +1,4 @@
+require_relative '../config'
 require_relative '../factories'
 require_relative '../contact'
 require_relative '../group'
