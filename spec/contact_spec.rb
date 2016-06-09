@@ -24,6 +24,13 @@ describe Contact do
     expect(contact.email).to eq "annie@gmail.com"
   end
 
+  it "has a readabel and writeable group_id" do
+    contact = Contact.new("group_id" => 1)
+    expect(contact.group_id).to eq 1
+    contact.group_id = 2
+    expect(contact.group_id).to eq 2
+  end
+
   it "has a readable id" do
     contact = Contact.new("id" => 1)
     expect(contact.id).to eq 1

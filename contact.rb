@@ -1,6 +1,6 @@
 class Contact
   attr_reader :id, :created_at, :updated_at
-  attr_accessor :name, :phone, :email
+  attr_accessor :name, :phone, :email, :group_id
 
   def initialize(args = {})
     assign_attributes(args)
@@ -52,6 +52,7 @@ class Contact
     self.name       = args["name"]       if args["name"]
     self.phone      = args["phone"]      if args["phone"]
     self.email      = args["email"]      if args["email"]
+    self.group_id   = args["group_id"]   if args["group_id"]
     self.created_at = args["created_at"] if args["created_at"]
     self.updated_at = args["updated_at"] if args["updated_at"]
   end
@@ -61,12 +62,14 @@ class Contact
   end
 
   def insert
-    $db.execute("INSERT INTO contacts (name, phone, email, created_at, updated_at) VALUES (?, ?, ?, DATETIME('now'), DATETIME('now'));", self.name, self.phone, self.email)
+    insert_statement = "INSERT INTO contacts (name, phone, email, group_id, created_at, updated_at) VALUES (?, ?, ?, ?, DATETIME('now'), DATETIME('now'));"
+    $db.execute(insert_statement, self.name, self.phone, self.email, self.group_id)
     assign_attributes($db.execute("SELECT * FROM contacts WHERE id = ? LIMIT 1", $db.last_insert_row_id).first)
   end
 
   def update
-    $db.execute("UPDATE contacts SET name = ?, phone = ?, email = ?, updated_at = DATETIME('now') WHERE id = ?", self.name, self.phone, self.email, self.id)
+    update_statement = "UPDATE contacts SET name = ?, phone = ?, email = ?, group_id = ?, updated_at = DATETIME('now') WHERE id = ?"
+    $db.execute(update_statement, self.name, self.phone, group_id, self.email, self.id)
     assign_attributes($db.execute("SELECT * FROM contacts WHERE id = ? LIMIT 1", self.id).first)
   end
 

@@ -34,6 +34,7 @@ $db.execute(
     name       VARCHAR(64) NOT NULL,
     phone      VARCHAR(32),
     email      VARCHAR(64),
+    group_id   INTEGER,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL
   );
