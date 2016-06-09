@@ -1,6 +1,6 @@
-require_relative '../config'
-require_relative '../group'
-require_relative '../contact'
+require_relative "../config"
+require_relative "../group"
+require_relative "../contact"
 
 describe Group do
   it "has a readable and writeable name" do
