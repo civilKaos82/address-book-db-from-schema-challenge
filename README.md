@@ -1,49 +1,19 @@
-# Address Book Db From Schema
-
-##Learning Competencies
-
-* Use sqlite gem to create a database using Ruby commands
-* Use sqlite gem to perform CRUD operations on tables in a database using Ruby commands
+# Associating Groups and Contacts
 
 ## Summary
+We're going to be working with two classes:  `Group` and `Contact`.  Each class is backed by our database.  The classes are provided with behaviors for persisting themselves in the database.  We can save new groups and contacts in our database, we can pull records out of the database, we can update records in the database, etc.
 
- Let's build an address book so we can keep track of all the awesome programmers we know.
+However, the classes are independent of each other.  We can't ask a group which contacts it has.  And conversely, we can't ask a contact to which group it belongs.
 
-Revisit (**or do if you have not already**) the [Address Book Schema]( ../../../db-drill-address-book-schema-challenge) and write a ruby program to create Objects to represent the address book and create the database  `address_book.db`
+At least not yet.  That's the behavior we're going to add in this challenge.  We're going to write methods that allow us to associate groups and contacts with each other.  For example, we'll be able tell a group that it has a new contact and tell a contact that it belongs to a specific group.
 
-##Releases
 
-###Release 0 : Create the address_book database
+## Releases
+### Pre-release: Setup the Database
+In order for our `Group` and `Contact` classes to work properly, we need a database with a `groups` table and a `contacts` table.  The file `setup.rb` will create this database for us; all we need to do is run the file:
 
-Create the SQL Schema that represents your database tables.  Then, create a file called  `setup.rb` which you will run only once and will create your database.  All other parts of your code will assume that the database has already been created.
+```
+$ ruby setup.rb
+```
 
-Next, load some initial records into this database from hardcoded SQL statements.  This code should also be in `setup.rb`.
-
-**Extra Credit**: Instead of hardcoding your insert statements, create a csv/YAML/JSON file with the data and import it.
-
-###Release 1 : Build the Contact class
-
-You'll find a spec file for the `Contact` class that corresponds to the newly-created `contacts` table in `source/contacts_spec.rb`. To start, they have all been marked as pending. Working one spec at a time, create methods that pass the specs.
-
-The given specs may be missing things that you consider important; add any specs you need to feel comfortable that your code works as intended.
-
-You will need the global variable in `source/db.rb` to interact with the database.
-
-###Release 2 : Build the Group class
-
-You'll find a spec file for the `Group` class corresponding to the `groups` table in `source/groups_spec.rb`. As before, they have all been marked pending.
-
-Pay particular attention to what happens when you destroy a group - what should happen to records that refer to that group?
-
-###Release 3 :  Data validation
-Input from users is "Dangerous".  What if they give you a phone number with 17 digits? How about an address without a state? How does your database handle this?  How does your Ruby code handle this?
-
-These are complex questions.  Come up with a plan to work with phone numbers (must have a valid format) and email addresses (must have a valid format and be unique).
-
-Start by writing some specs to describe your plan, then implement the needed functionality.
-
-##Resources
-
-* [Ruby gem for SQLite](https://github.com/sparklemotion/sqlite3-ruby)
-* [SQLite3 Rdoc](http://rdoc.info/github/sparklemotion/sqlite3-ruby)
-* [SQLite3 SQL Syntax](http://www.sqlite.org/lang.html)
+*Note:* If we somehow break our database, we can rerun this file to remove the old database file and create a new one.  We'll lose any data in the database, but it is an option.
