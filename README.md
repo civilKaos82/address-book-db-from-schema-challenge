@@ -1,4 +1,4 @@
-# Associating Groups and Contacts
+# Modeling a One-to-many Relationship in Ruby
 
 ## Summary
 We're going to be working with two classes:  `Group` and `Contact`.  Each class is backed by our database.  The classes are provided with behaviors for persisting themselves in the database.  We can save new groups and contacts in our database, we can pull records out of the database, we can update records in the database, etc.
