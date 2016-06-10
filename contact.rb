@@ -43,18 +43,19 @@ class Contact
   end
 
   def date_from(date)
+    return unless date
     return date if date.kind_of? Date
     DateTime.parse(date)
   end
 
   def assign_attributes(args = {})
-    self.id         = args["id"]         if args["id"]
-    self.name       = args["name"]       if args["name"]
-    self.phone      = args["phone"]      if args["phone"]
-    self.email      = args["email"]      if args["email"]
-    self.group_id   = args["group_id"]   if args["group_id"]
-    self.created_at = args["created_at"] if args["created_at"]
-    self.updated_at = args["updated_at"] if args["updated_at"]
+    self.id         = args["id"]
+    self.name       = args["name"]
+    self.phone      = args["phone"]
+    self.email      = args["email"]
+    self.group_id   = args["group_id"]
+    self.created_at = args["created_at"]
+    self.updated_at = args["updated_at"]
   end
 
   def persisted?

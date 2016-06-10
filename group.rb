@@ -43,15 +43,16 @@ class Group
   end
 
   def date_from(date)
+    return unless date
     return date if date.kind_of? Date
     DateTime.parse(date)
   end
 
   def assign_attributes(args = {})
-    self.id         = args["id"]         if args["id"]
-    self.name       = args["name"]       if args["name"]
-    self.created_at = args["created_at"] if args["created_at"]
-    self.updated_at = args["updated_at"] if args["updated_at"]
+    self.id         = args["id"]
+    self.name       = args["name"]
+    self.created_at = args["created_at"]
+    self.updated_at = args["updated_at"]
   end
 
   def persisted?
