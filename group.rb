@@ -15,6 +15,14 @@ class Group
     return self
   end
 
+  def ==(other)
+    return true if self.object_id == other.object_id
+    return false unless persisted?
+    return false unless other.is_a? Group
+
+    self.id == other.id
+  end
+
   def self.count
     $db.get_first_value("SELECT COUNT() FROM groups;")
   end

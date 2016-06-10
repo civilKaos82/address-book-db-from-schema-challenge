@@ -46,6 +46,35 @@ describe Contact do
     expect(contact.updated_at).to eq Date.parse("2016-06-07")
   end
 
+  describe "being equal to other objects" do
+    it "is equal to itself" do
+      contact = Contact.new
+
+      expect(contact).to eq contact
+    end
+
+    it "is equal to other contacts with the same id" do
+      contact = Contact.new("id" => 1)
+      other_contact = Contact.new("id" => 1)
+
+      expect(contact).to eq other_contact
+    end
+
+    it "is equal only when persisted" do
+      contact = Contact.new
+      other_contact = Contact.new
+
+      expect(contact).to_not eq other_contact
+    end
+
+    it "is not equal to objects of other types" do
+      contact = Contact.new("id" => 1)
+      other_object = double("not a contact", id: 1)
+
+      expect(contact).to_not eq other_object
+    end
+  end
+
   describe "interacting with the database" do
     describe "retrieving records from the database" do
       before(:each) do

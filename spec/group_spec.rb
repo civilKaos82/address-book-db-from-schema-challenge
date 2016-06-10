@@ -25,6 +25,35 @@ describe Group do
     expect(group.updated_at).to eq Date.parse("2016-06-07")
   end
 
+  describe "being equal to other objects" do
+    it "is equal to itself" do
+      group = Group.new
+
+      expect(group).to eq group
+    end
+
+    it "is equal to other groups with the same id" do
+      group = Group.new("id" => 1)
+      other_group = Group.new("id" => 1)
+
+      expect(group).to eq other_group
+    end
+
+    it "is equal only when persisted" do
+      group = Group.new
+      other_group = Group.new
+
+      expect(group).to_not eq other_group
+    end
+
+    it "is not equal to objects of other types" do
+      group = Group.new("id" => 1)
+      other_object = double("not a group", id: 1)
+
+      expect(group).to_not eq other_object
+    end
+  end
+
   describe "interacting with the database" do
     describe "retrieving records from the database" do
       before(:each) do
