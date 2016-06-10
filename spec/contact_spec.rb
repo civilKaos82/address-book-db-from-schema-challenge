@@ -3,6 +3,51 @@ require_relative "../contact"
 require_relative "../group"
 
 describe Contact do
+  describe "belonging to a group" do
+    before(:each) do
+      $db.execute(
+        <<-SQL_INSERT_STATEMENT
+        INSERT INTO groups
+          (name, created_at, updated_at)
+        VALUES
+          ("Nighthawks", DATETIME("now"), DATETIME("now"))
+        SQL_INSERT_STATEMENT
+      )
+    end
+
+    it "returns the group with the id matching its group_id" do
+      group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+      contact = Contact.new("name" => "Erik")
+      expect(contact.group).to be_nil
+
+      contact.group_id = group.id
+      expect(contact.group).to eq group
+    end
+
+    describe "assigning a group" do
+      it "updates the contact's group_id to match the id of the assigned group" do
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        contact = Contact.new("name" => "Jaimin")
+        expect(contact.group_id).to be_nil
+
+        contact.group = group
+        expect(contact.group_id).to eq group.id
+      end
+
+      it "makes the assigned group the contact's group" do
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        contact = Contact.new("name" => "Fabi")
+        expect(contact.group).to be_nil
+
+        contact.group = group
+        expect(contact.group).to eq group
+      end
+    end
+  end
+
   it "has a readable and writeable name" do
     contact = Contact.new("name" => "Daniel")
     expect(contact.name).to eq "Daniel"
