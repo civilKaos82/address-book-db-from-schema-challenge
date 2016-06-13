@@ -3,6 +3,72 @@ require_relative "../group"
 require_relative "../contact"
 
 describe Group do
+  describe "having many contacts" do
+    before(:each) do
+      $db.execute(
+        <<-SQL_INSERT_STATEMENT
+        INSERT INTO groups
+          (name, created_at, updated_at)
+        VALUES
+          ("Nighthawks", DATETIME("now"), DATETIME("now"))
+        SQL_INSERT_STATEMENT
+      )
+
+      $db.execute(
+        <<-SQL_INSERT_STATEMENT
+        INSERT INTO contacts
+          (name, group_id, created_at, updated_at)
+        VALUES
+          ("Mohammad", #{ $db.get_first_value("SELECT id FROM groups LIMIT 1;") }, DATETIME("now"), DATETIME("now"))
+        SQL_INSERT_STATEMENT
+      )
+    end
+
+    it "returns a collection of contacts with its id as the group_id" do
+      contact = Contact.new($db.execute("SELECT * FROM contacts LIMIT 1;").first)
+
+      group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+      expect(group.contacts).to match_array [contact]
+    end
+
+    describe "assigning a collection of contacts" do
+      it "breaks the association with any previous contacts" do
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        old_contact_ids = group.contacts.map(&:id)
+        group.contacts = []
+
+        old_contact_ids.each do |id|
+          expect(Contact.find(id).group).to be_nil
+        end
+      end
+
+      it "updates the group_id of each contact in the collection" do
+        contact = Contact.new($db.execute("SELECT * FROM contacts LIMIT 1;").first)
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        contact_1 = Contact.new("name" => "Raza")
+        contact_2 = Contact.new("name" => "Justin")
+
+        group.contacts = [contact_1, contact_2]
+
+        expect(contact_1.group_id).to eq group.id
+        expect(contact_2.group_id).to eq group.id
+      end
+
+      it "makes the contacts in the collection its contacts" do
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        contact_1 = Contact.new("name" => "Raza")
+        contact_2 = Contact.new("name" => "Justin")
+
+        group.contacts = [contact_1, contact_2]
+
+        expect(group.contacts).to match_array [contact_1, contact_2]
+      end
+    end
+  end
+
   it "has a readable and writeable name" do
     group = Group.new("name" => "Otters")
     expect(group.name).to eq "Otters"
@@ -201,19 +267,19 @@ describe Group do
         end
       end
     end
+  end
 
-    before(:each) do
-      # Start each test with no data in the tables.
-      # We'll add any data we need before each specific test.
-      $db.transaction
-      $db.execute("DELETE FROM groups")
-      $db.execute("DELETE FROM contacts")
-    end
+  before(:each) do
+    # Start each test with no data in the tables.
+    # We'll add any data we need before each specific test.
+    $db.transaction
+    $db.execute("DELETE FROM groups")
+    $db.execute("DELETE FROM contacts")
+  end
 
-    # Undo any changes to the database after each test.
-    after(:each) do
-      $db.rollback
-    end
+  # Undo any changes to the database after each test.
+  after(:each) do
+    $db.rollback
   end
 end
 

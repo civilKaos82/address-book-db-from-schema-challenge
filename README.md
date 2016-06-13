@@ -50,3 +50,38 @@ sammy.group
 # => #<Group:0x007f8aa9201be8 @id=1, @name="Nighthawks", @created_at=#<DateTime: 2016-06-10T15:36:59+00:00 ((2457550j,56219s,0n),+0s,2299161j)>, @updated_at=#<DateTime: 2016-06-10T15:36:59+00:00 ((2457550j,56219s,0n),+0s,2299161j)>>
 ```
 *Figure 2*.  Assigning a contact to a group.
+
+
+### Release 1: A Group has Many Contacts
+We've begun to model a one-to-many relationship in ruby by making a contact belong to a group.  Now we're going to model the other side of the relationship:  a group having many contacts.
+
+We're going to update our Group model with behaviors related to having contacts. Tests for these behaviors are written in the `"having many contacts"` example group in `spec/group_spec.rb`. Update the `Group` class to pass the tests.
+
+When we're done, we'll have code that we can use as seen in Figure 3. To follow along in IRB, load the `config.rb`, `group.rb`, and `contact.rb` files.
+
+```ruby
+nighthawks = Group.new("name" => "Nighthawks")
+nighthawks.save
+nighthawks.id
+# => 1
+
+robb = Contact.new("name" => "Robb")
+robb.group_id
+# => nil
+
+michael = Contact.new("name" => "Michael")
+michael.group_id
+# => nil
+
+nighthawks.contacts
+# => []
+nighthawks.contacts = [robb, michael]
+nighthawks.contacts
+# => [#<Contact:0x007fa71419adf8 @id=1, @name="Robb", @phone=nil, @email=nil, @group_id=1, @created_at=#<DateTime: 2016-06-13T17:16:07+00:00 ((2457553j,62167s,0n),+0s,2299161j)>, @updated_at=#<DateTime: 2016-06-13T17:16:07+00:00 ((2457553j,62167s,0n),+0s,2299161j)>>, #<Contact:0x007fa714199b38 @id=2, @name="Michael", @phone=nil, @email=nil, @group_id=1, @created_at=#<DateTime: 2016-06-13T17:16:07+00:00 ((2457553j,62167s,0n),+0s,2299161j)>, @updated_at=#<DateTime: 2016-06-13T17:16:07+00:00 ((2457553j,62167s,0n),+0s,2299161j)>>]
+
+robb.group_id
+# => 1
+michael.group_id
+# => 1
+```
+*Figure 3*.  Assigning contacts to a group.
