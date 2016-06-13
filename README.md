@@ -83,5 +83,10 @@ robb.group_id
 # => 1
 michael.group_id
 # => 1
+
+sasha = Contact.new("name" => "Sasha")
+nighthawks.add_contact(sasha)
+sasha.group_id
+# => 1
 ```
 *Figure 3*.  Assigning contacts to a group.

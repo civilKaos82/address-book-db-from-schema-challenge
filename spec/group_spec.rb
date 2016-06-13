@@ -31,6 +31,30 @@ describe Group do
       expect(group.contacts).to match_array [contact]
     end
 
+    describe "adding a contact" do
+      it "updates the contact's group_id to its id" do
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+
+        new_contact = Contact.new("name" => "Casey")
+
+        expect(new_contact.group_id).to_not eq group.id
+        group.add_contact(new_contact)
+        expect(new_contact.group_id).to eq group.id
+      end
+
+      it "adds the contact to its collection of contacts" do
+        contact = Contact.new($db.execute("SELECT * FROM contacts LIMIT 1;").first)
+
+        group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
+        expect(group.contacts).to match_array [contact]
+
+        new_contact = Contact.new("name" => "Casey")
+
+        group.add_contact(new_contact)
+        expect(group.contacts).to match_array [contact, new_contact]
+      end
+    end
+
     describe "assigning a collection of contacts" do
       it "breaks the association with any previous contacts" do
         group = Group.new($db.execute("SELECT * FROM groups LIMIT 1;").first)
