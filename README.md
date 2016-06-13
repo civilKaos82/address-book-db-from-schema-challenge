@@ -9,7 +9,7 @@
 
  Let's build an address book so we can keep track of all the awesome programmers we know.
 
-Revisit (**or do if you have not already**) the [Address Book Schema]( https://github.com/fireflies-2014/db-drill-address-book-schema-challenge)  and write a ruby program to create Objects to represent the address book and create the database  `address_book.db`
+Revisit (**or do if you have not already**) the [Address Book Schema]( ../../../db-drill-address-book-schema-challenge) and write a ruby program to create Objects to represent the address book and create the database  `address_book.db`
 
 ##Releases
 
