@@ -90,3 +90,7 @@ sasha.group_id
 # => 1
 ```
 *Figure 3*.  Assigning contacts to a group.
+
+
+## Conclusion
+We've modeled objects with relationships to each other before:  todo lists with items, orange trees with oranges, etc.  And we've modeled those relationships as database schemas.  In this challenge, we've put both of these together.  We've taken a database designed with a one-to-many relationship between groups and contacts and we've modeled our Ruby classes with behaviors that reflect that relationship.
