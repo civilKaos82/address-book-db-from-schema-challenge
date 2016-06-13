@@ -20,7 +20,7 @@ $ ruby setup.rb
 
 
 ### Release 0: A Contact Belongs to a Group
-![schema](readme-assets/schema.png)
+![schema](readme-assets/schema.png)  
 *Figure 1*. Database schema visualization.
 
 The schema for the database we created is represented in Figure 1.  What type of relationship exists between groups and contacts?
@@ -48,7 +48,7 @@ sammy.group_id
 # => 1
 sammy.group
 # => #<Group:0x007f8aa9201be8 @id=1, @name="Nighthawks", @created_at=#<DateTime: 2016-06-10T15:36:59+00:00 ((2457550j,56219s,0n),+0s,2299161j)>, @updated_at=#<DateTime: 2016-06-10T15:36:59+00:00 ((2457550j,56219s,0n),+0s,2299161j)>>
-```
+```  
 *Figure 2*.  Assigning a contact to a group.
 
 
@@ -88,7 +88,7 @@ sasha = Contact.new("name" => "Sasha")
 nighthawks.add_contact(sasha)
 sasha.group_id
 # => 1
-```
+```  
 *Figure 3*.  Assigning contacts to a group.
 
 
