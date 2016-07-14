@@ -25,7 +25,10 @@ $ ruby setup.rb
 
 The schema for the database we created is represented in Figure 1.  What type of relationship exists between groups and contacts?
 
-It's a one-to-many association.  A group has many contacts.  A contact belongs to one group.  So, how do we determine the group to which a contact belongs?  `contacts.group_id` is a foreign key field whose value points to a group, so we take the contact's `group_id` value and use it to select the group with that id.
+**STOP:** The previous paragraph is one of the most important paragraphs in
+Phase 1. It introduces key concepts for looking at tables and understanding
+their relationship. Do not "cruise" through that paragraph without making sure
+that you can explain the terms to your pair -- and to yourself!
 
 What we want to do in this release is to model a contact belonging to a group in ruby.  We're going to update our `Contact` model with behaviors related to belonging to a group.  Tests for these behaviors are written in the `"belonging to a group"` example group in `spec/contact_spec.rb`.  Update the `Contact` class to pass the tests.
 
