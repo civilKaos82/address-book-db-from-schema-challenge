@@ -78,7 +78,7 @@ class Contact
 
   def update
     update_statement = "UPDATE contacts SET name = ?, phone = ?, email = ?, group_id = ?, updated_at = DATETIME('now') WHERE id = ?"
-    $db.execute(update_statement, self.name, self.phone, group_id, self.email, self.id)
+    $db.execute(update_statement, self.name, self.phone, self.email, self.group_id, self.id)
     assign_attributes($db.execute("SELECT * FROM contacts WHERE id = ? LIMIT 1", self.id).first)
   end
 
